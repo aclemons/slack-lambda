@@ -1,16 +1,16 @@
-FROM aclemons/slackware:15.0@sha256:4f7d2a0a65ab072d25c9a12f00cbd4f92edfa689da229e6f7cc5a3f0b15b00f4 as lambda-layers
+FROM aclemons/slackware:current as lambda-layers
 
 WORKDIR /tmp
 COPY ./extensions/lambda-insights-*.zip .
 RUN export TERSE=0 && slackpkg -default_answer=yes -batch=on update && EXIT_CODE=0 && \
-    slackpkg -default_answer=yes -batch=on install infozip || EXIT_CODE=$? && \
+    slackpkg -default_answer=yes -batch=on install infozip patchelf || EXIT_CODE=$? && \
     if [ $EXIT_CODE -ne 0 ] && [ $EXIT_CODE -ne 20 ] ; then exit $EXIT_CODE ; fi && \
     rm -rf /var/cache/packages/* && rm -rf /var/lib/slackpkg/* && \
-    unzip -q -d /tmp/layer lambda-insights-*amd64*.zip && \
+    if [ "$(uname -m)" = "aarch64" ] ; then unzip -q -d /tmp/layer lambda-insights-*arm64*.zip  && patchelf --set-interpreter /lib64/ld-linux-aarch64.so.1 /tmp/layer/extensions/cloudwatch_lambda_agent ; else unzip -q -d /tmp/layer lambda-insights-*amd64*.zip ; fi && \
     rm -- *.zip && removepkg infozip
 
 
-FROM aclemons/slackware:15.0@sha256:4f7d2a0a65ab072d25c9a12f00cbd4f92edfa689da229e6f7cc5a3f0b15b00f4
+FROM aclemons/slackware:current
 
 COPY --from=lambda-layers /tmp/layer /opt
 
