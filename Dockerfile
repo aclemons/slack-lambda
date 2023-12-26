@@ -1,4 +1,4 @@
-FROM aclemons/slackware:15.0@sha256:ef43063609f2ca57be9e8a488a3af6174ca686b2c54fa74697d4e1fdd2f244ae as lambda-layers
+FROM aclemons/slackware:15.0@sha256:4d68c16b1467254856db03c8e12db09c3c853f9d6f98283d6f6cbe6144eb8125 as lambda-layers
 
 WORKDIR /tmp
 COPY ./extensions/lambda-insights-*.zip .
@@ -10,7 +10,7 @@ RUN export TERSE=0 && slackpkg -default_answer=yes -batch=on update && EXIT_CODE
     rm -- *.zip && removepkg infozip
 
 
-FROM aclemons/slackware:15.0@sha256:ef43063609f2ca57be9e8a488a3af6174ca686b2c54fa74697d4e1fdd2f244ae
+FROM aclemons/slackware:15.0@sha256:4d68c16b1467254856db03c8e12db09c3c853f9d6f98283d6f6cbe6144eb8125
 
 COPY --from=lambda-layers /tmp/layer /opt
 
