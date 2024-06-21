@@ -20,6 +20,13 @@ RUN export TERSE=0 && slackpkg -default_answer=yes -batch=on update && EXIT_CODE
     rm -rf /var/cache/packages/* && rm -rf /var/lib/slackpkg/* && \
     c_rehash && update-ca-certificates
 
-COPY startup.sh /startup.sh
+# renovate: datasource=github-releases depName=aws/aws-lambda-runtime-interface-emulator
+ARG AWS_LAMBDA_RIE_VERSION=v1.19
 
-ENTRYPOINT ["/startup.sh"]
+RUN curl -o /usr/local/bin/aws-lambda-rie -L "https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/$AWS_LAMBDA_RIE_VERSION/aws-lambda-rie-x86_64" && \
+    chown root:root /usr/local/bin/aws-lambda-rie && chmod 0755 /usr/local/bin/aws-lambda-rie
+
+COPY --chmod=0755 lambda-entrypoint.sh /lambda-entrypoint.sh
+COPY --chmod=0755 startup.sh /startup.sh
+
+ENTRYPOINT ["/lambda-entrypoint.sh"]
