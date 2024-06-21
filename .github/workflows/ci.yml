@@ -1,5 +1,4 @@
 ---
-
 name: Test docker images
 
 on: [pull_request]
