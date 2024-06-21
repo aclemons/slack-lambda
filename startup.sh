@@ -20,9 +20,7 @@ while true ; do
 
   printf 'Processing request %s\n' "$REQUEST_ID"
 
-  # TODO do work
-
-  # echo back what we got
+  # NOTE implement your processing here. The example echoes back the payload.
   curl -f -sS -X POST "http://$AWS_LAMBDA_RUNTIME_API/2018-06-01/runtime/invocation/$REQUEST_ID/response" -d @"$BODY"
   rm -rf "$BODY"
 done
