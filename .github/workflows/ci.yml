@@ -16,6 +16,9 @@ jobs:
         with:
           show-progress: false
 
+      - name: Setup Bats
+        uses: bats-core/bats-action@472edde1138d59aca53ff162fb8d996666d21e4a # 2.0.0
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3 # v3.0.0
 
@@ -64,3 +67,7 @@ jobs:
       - name: Start docker compose
         run: |
           docker compose up -d --build --wait --quiet-pull
+
+      - name: Run tests
+        run: |
+          bats tests
