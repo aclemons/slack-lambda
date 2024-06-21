@@ -1,6 +1,6 @@
 ---
 
-name: Test docker images
+name: Seed Caches
 
 on:
   push:
