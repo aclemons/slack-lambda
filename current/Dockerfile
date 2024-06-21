@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.8.1@sha256:e87caa74dcb7d46cd820352bfea12591f3dba3ddc4285e19c7dcd13359f7cefd
 
-FROM aclemons/slackware:current@sha256:ec9d721235a86d677ac5654ff832681477d7fbb6af349814f50b7df4da156b79 as base
+FROM aclemons/slackware:current@sha256:ec9d721235a86d677ac5654ff832681477d7fbb6af349814f50b7df4da156b79 AS base
 
 RUN export TERSE=0 && \
     sed -i '/^WGETFLAGS/s/"$/ -q"/' /etc/slackpkg/slackpkg.conf && \
@@ -20,7 +20,7 @@ RUN if [ "$(uname -m)" = "aarch64" ] ; then curl -o /usr/local/bin/aws-lambda-ri
     chown root:root /usr/local/bin/aws-lambda-rie && chmod 0755 /usr/local/bin/aws-lambda-rie
 
 
-FROM base as lambda-layers
+FROM base AS lambda-layers
 
 ENV EXTENSION_VERSION=1.0.273.0
 ENV EXTENSION_CHECKSUM_ARM64=e5fab2b54d46e056a26fc198290305097f1dfd45094a026ad6b84b0f7924d366afe1ea9e9142ea38d66604137c191db30332d25cdc984d6d62720b681d26b208
