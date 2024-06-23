@@ -5,13 +5,12 @@ FROM aclemons/slackware:15.0@sha256:8c36704f99d1a9babcbd240ec4f29e3267d7fc41c6ff
 RUN export TERSE=0 && \
     sed -i '/^WGETFLAGS/s/"$/ -q"/' /etc/slackpkg/slackpkg.conf && \
     slackpkg -default_answer=yes -batch=on update && \
-    EXIT_CODE=0 && slackpkg -default_answer=yes -batch=on upgrade-all || EXIT_CODE=$? && \
+    EXIT_CODE=0 && { slackpkg -default_answer=yes -batch=on upgrade-all || EXIT_CODE=$? ; } && \
     if [ "$EXIT_CODE" -ne 0 ] && [ "$EXIT_CODE" -ne 20 ] ; then exit "$EXIT_CODE" ; fi && \
     EXIT_CODE=0 && { slackpkg -default_answer=yes -batch=on install brotli ca-certificates cyrus-sasl curl dcron nghttp2 perl || EXIT_CODE=$? ; } && \
     if [ "$EXIT_CODE" -ne 0 ] && [ "$EXIT_CODE" -ne 20 ] ; then exit "$EXIT_CODE" ; fi && \
     c_rehash && update-ca-certificates && \
-    rm -rf /var/cache/packages/* && rm -rf /var/lib/slackpkg/* && \
-    touch /var/lib/slackpkg/current
+    rm -rf /var/cache/packages/* && rm -rf /var/lib/slackpkg/*
 
 # renovate: datasource=github-releases depName=aws/aws-lambda-runtime-interface-emulator
 ARG AWS_LAMBDA_RIE_VERSION=v1.20
@@ -29,15 +28,14 @@ WORKDIR /
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN export TERSE=0 && \
     slackpkg -default_answer=yes -batch=on update && \
-    EXIT_CODE=0 && slackpkg -default_answer=yes -batch=on upgrade-all || EXIT_CODE=$? && \
+    EXIT_CODE=0 && { slackpkg -default_answer=yes -batch=on upgrade-all || EXIT_CODE=$? ; } && \
     if [ "$EXIT_CODE" -ne 0 ] && [ "$EXIT_CODE" -ne 20 ] ; then exit "$EXIT_CODE" ; fi && \
-    EXIT_CODE=0 && { slackpkg -default_answer=yes -batch=on install cpio icu4c libgcrypt libgpg-error rpm sqlite || EXIT_CODE=$? ; } && \
+    EXIT_CODE=0 && { slackpkg -default_answer=yes -batch=on install cpio icu4c libgcrypt libgpg-error lua patchelf rpm sqlite || EXIT_CODE=$? ; } && \
     if [ "$EXIT_CODE" -ne 0 ] && [ "$EXIT_CODE" -ne 20 ] ; then exit "$EXIT_CODE" ; fi && \
     rm -rf /var/cache/packages/* && rm -rf /var/lib/slackpkg/* && \
-    touch /var/lib/slackpkg/current && \
-    curl -o "/tmp/lambda-insights-extension.rpm" -L "https://lambda-insights-extension.s3-ap-northeast-1.amazonaws.com/amazon_linux/lambda-insights-extension.$EXTENSION_VERSION.rpm" && \
+    curl -o /tmp/lambda-insights-extension.rpm -L "https://lambda-insights-extension.s3-ap-northeast-1.amazonaws.com/amazon_linux/lambda-insights-extension.$EXTENSION_VERSION.rpm" && \
     echo "$EXTENSION_CHECKSUM_AMD64 /tmp/lambda-insights-extension.rpm" | sha512sum --strict --check && \
-    rpm2cpio < "/tmp/lambda-insights-extension.rpm" | cpio -imdv && \
+    rpm2cpio < /tmp/lambda-insights-extension.rpm | cpio -imdv && \
     rm -f /tmp/lambda-insights-extension.rpm && \
     removepkg cpio icu4c libgcrypt libgpg-error rpm sqlite
 
