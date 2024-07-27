@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.9.0@sha256:fe40cf4e92cd0c467be2cfc30657a680ae2398318afd50b0c80585784c604f28
 
-FROM aclemons/slackware:current@sha256:8edcb810a7c42794446f147d49a13871e6b5ed4b30d0b6d3488a39121e318069 AS base
+FROM aclemons/slackware:current@sha256:3bf603f877c4f593a5e65dfa8916eb60e2559b262172fc605bea16354245023f AS base
 
 RUN export TERSE=0 && \
     sed -i '/^WGETFLAGS/s/"$/ -q"/' /etc/slackpkg/slackpkg.conf && \
@@ -11,8 +11,7 @@ RUN export TERSE=0 && \
     if [ "$EXIT_CODE" -ne 0 ] && [ "$EXIT_CODE" -ne 20 ] ; then exit "$EXIT_CODE" ; fi && \
     c_rehash && update-ca-certificates && \
     rm -rf /var/cache/packages/* && rm -rf /var/lib/slackpkg/* && \
-    touch /var/lib/slackpkg/current && \
-    rm /root/.gnupg/public-keys.d/pubring.db.lock
+    touch /var/lib/slackpkg/current
 
 # renovate: datasource=github-releases depName=aws/aws-lambda-runtime-interface-emulator
 ARG AWS_LAMBDA_RIE_VERSION=v1.21
@@ -37,7 +36,6 @@ RUN export TERSE=0 && \
     if [ "$EXIT_CODE" -ne 0 ] && [ "$EXIT_CODE" -ne 20 ] ; then exit "$EXIT_CODE" ; fi && \
     rm -rf /var/cache/packages/* && rm -rf /var/lib/slackpkg/* && \
     touch /var/lib/slackpkg/current && \
-    rm /root/.gnupg/public-keys.d/pubring.db.lock && \
     if [ "$(uname -m)" = "x86_64" ] ; then curl -o /tmp/lambda-insights-extension.rpm -L "https://lambda-insights-extension.s3-ap-northeast-1.amazonaws.com/amazon_linux/lambda-insights-extension.$EXTENSION_VERSION.rpm" ; fi && \
     if [ "$(uname -m)" = "x86_64" ] ; then echo "$EXTENSION_CHECKSUM_AMD64 /tmp/lambda-insights-extension.rpm" | sha512sum --strict --check ; fi && \
     if [ "$(uname -m)" = "aarch64" ] ; then curl -o /tmp/lambda-insights-extension.rpm -L "https://lambda-insights-extension-arm64.s3-ap-northeast-1.amazonaws.com/amazon_linux/lambda-insights-extension-arm64.$EXTENSION_VERSION.rpm" ; fi && \
