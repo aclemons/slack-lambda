@@ -16,7 +16,7 @@ jobs:
           show-progress: false
 
       - name: Setup Bats
-        uses: bats-core/bats-action@3b6fd9e3d70ab0587e754b8b6c8aa9c2e6f61d02 # 2.1.1
+        uses: bats-core/bats-action@2104b40bb7b6c2d5110b23a26b0bf265ab8027db # 3.0.0
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf # v3.2.0
