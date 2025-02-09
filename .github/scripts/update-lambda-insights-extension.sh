@@ -16,3 +16,7 @@ if [[ $(git status --porcelain) ]]; then
   SUMARM64="$(sha512sum /tmp/arm64 | awk '{ print $1 }')"
   find . -name  'Dockerfile' -exec sed -i "s/^\(ENV EXTENSION_CHECKSUM_ARM64=\).*$/\1$SUMARM64/" {} \;
 fi
+
+if [ -n "$GITHUB_ENV" ] ; then
+  printf 'EXTENSION_VERSION=%s\n' "$VERSION" >> "$GITHUB_ENV"
+fi
