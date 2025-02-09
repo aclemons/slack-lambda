@@ -1,0 +1,26 @@
+name: Update AWS lambda insights extension.
+on:
+  workflow_dispatch: ~
+  schedule:
+    - cron: "0 3 * * 0"
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          show-progress: false
+
+      - run: |
+          ./.github/scripts/update-lambda-insights-extension.sh
+          printf 'EXTENSION_VERSION=%s\n' "$(sed -n '/ENV EXTENSION_VERSION=/p' github/Dockerfile | cut -d= -f2)" >> "$GITHUB_ENV"
+
+      - uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
+        with:
+          commit-message: "Update aws lambda insights extension to version ${{
+            env.EXTENSION_VERSION }}."
+          branch: update-aws-lambda-insights-extension-${{ env.EXTENSION_VERSION }}
