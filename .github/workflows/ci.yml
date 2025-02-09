@@ -23,7 +23,7 @@ jobs:
         uses: bats-core/bats-action@2104b40bb7b6c2d5110b23a26b0bf265ab8027db # 3.0.0
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@53851d14592bedcffcf25ea515637cff71ef929a # v3.3.0
+        uses: docker/setup-qemu-action@4574d27a4764455b42196d70a065bc6853246a25 # v3.4.0
         with:
           image: tonistiigi/binfmt:${{ env.BINFMT_VERSION }}
 
