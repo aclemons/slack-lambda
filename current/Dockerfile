@@ -1,6 +1,6 @@
-# syntax=docker/dockerfile:1.14.0@sha256:4c68376a702446fc3c79af22de146a148bc3367e73c25a5803d453b6b3f722fb
+# syntax=docker/dockerfile:1.15.1@sha256:9857836c9ee4268391bb5b09f9f157f3c91bb15821bb77969642813b0d00518d
 
-FROM aclemons/slackware:current@sha256:49d24c66e234594f7bbbae45064ddcb5f7d4febc0e8dcbfbb29d25798c07d4f1 AS base
+FROM aclemons/slackware:current@sha256:33feadebcf9a0a07116574be690aa3a7a3c03fc9a26e948e949e6b237748fec7 AS base
 
 RUN export TERSE=0 && \
     sed -i '/^WGETFLAGS/s/"$/ -q"/' /etc/slackpkg/slackpkg.conf && \
