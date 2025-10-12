@@ -21,8 +21,8 @@ RUN curl -o /usr/local/bin/aws-lambda-rie -L "https://github.com/aws/aws-lambda-
 
 FROM base AS lambda-layers
 
-ENV EXTENSION_VERSION=1.0.404.0
-ENV EXTENSION_CHECKSUM_AMD64=1446a15a6d3e8c491648b8abe48feef2f3833b1558913ba579b2f6c76b02f61718b0ad5e36cbf34e0bb9d3a3352c0d438da0e35faf22e6c07cd6f4982cc5b895
+ENV EXTENSION_VERSION=1.0.498.0
+ENV EXTENSION_CHECKSUM_AMD64=5cb74c4f36894c28d6d6625cfbc6eb18f15122b36f199276b32f481abacfa58ba3f9b604dd90b65471dfdb129a5d337b511d2b29b7c868946c0a4e269bba7e2f
 
 WORKDIR /
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
