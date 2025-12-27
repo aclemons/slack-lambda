@@ -7,10 +7,6 @@ on:
       - master
   workflow_dispatch:
 
-env:
-  # renovate: datasource=docker depName=tonistiigi/binfmt versioning=docker
-  BINFMT_IMAGE: qemu-v9.2.0@sha256:ea2f0dd74e74f101df59f9a6b31d0960994060c7982a921cbceecee0f1841125
-
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
@@ -56,11 +52,6 @@ jobs:
           show-progress: false
           persist-credentials: false
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
-        with:
-          image: tonistiigi/binfmt:${{ env.BINFMT_IMAGE }}
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 
@@ -77,19 +68,6 @@ jobs:
           tags: |
             aclemons/slack-lambda:current
 
-      - name: Build current (arm64)
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
-        with:
-          push: false
-          platforms: linux/arm64/v8
-          cache-from: type=gha,scope=current-arm
-          cache-to: type=gha,mode=max,scope=current-arm
-          context: .
-          file: current/Dockerfile
-          provenance: false
-          tags: |
-            aclemons/slack-lambda:current-arm
-
   seed-current-arm64:
     name: Seed -current arm64 cache from master branch for PR checks.
     runs-on: ubuntu-24.04-arm
@@ -101,11 +79,6 @@ jobs:
         with:
           show-progress: false
           persist-credentials: false
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
-        with:
-          image: tonistiigi/binfmt:${{ env.BINFMT_IMAGE }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
