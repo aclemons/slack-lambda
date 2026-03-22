@@ -1,4 +1,3 @@
----
 name: Mirror Sync
 
 on:
@@ -12,6 +11,7 @@ concurrency:
 jobs:
   codeberg:
     runs-on: ubuntu-24.04
+    environment: codeberg-mirror
     permissions:
       contents: read
     steps:
@@ -22,7 +22,9 @@ jobs:
           persist-credentials: false
 
       - name: Mirror to codeberg
+        env:
+          CODEBERG_TOKEN: ${{ secrets.CODEBERG_TOKEN }}
         run: |
-          git remote add mirror "https://${{ github.repository_owner }}:${{ secrets.CODEBERG_TOKEN }}@codeberg.org/${{ github.repository }}.git"
+          git remote add mirror "https://${{ github.repository_owner }}:$CODEBERG_TOKEN@codeberg.org/${{ github.repository }}.git"
           git push --tags --force --prune mirror "refs/remotes/origin/*:refs/heads/*"
           git remote remove mirror
