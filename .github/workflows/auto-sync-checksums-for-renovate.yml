@@ -1,0 +1,40 @@
+name: Auto Update Checksums for Renovate updates
+on:
+  pull_request:
+    paths:
+      - "**/Dockerfile"
+
+jobs:
+  update-checksums:
+    if: github.event.pull_request.user.login == 'renovate[bot]'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.head_ref }}
+          show-progress: false
+          persist-credentials: true # to push back
+
+      - name: Compute new checksums
+        run: |
+          AWS_LAMBDA_RIE_VERSION=$(grep 'ENV AWS_LAMBDA_RIE_VERSION=' stable/Dockerfile | cut -d'=' -f2)
+
+          curl -f -s -o /tmp/aws-lambda-rie -L "https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/$AWS_LAMBDA_RIE_VERSION/aws-lambda-rie-x86_64"
+
+          CHECKSUM="$(sha512sum /tmp/aws-lambda-rie | awk '{ print $1 }')"
+
+          sed -i "s/^\(ENV AWS_LAMBDA_RIE_AMD64_SHA=\).*$/\1$CHECKSUM/" ./*/Dockerfile
+
+          rm /tmp/aws-lambda-rie
+          curl -f -s -o /tmp/aws-lambda-rie -L "https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/$AWS_LAMBDA_RIE_VERSION/aws-lambda-rie-arm64"
+
+          CHECKSUM="$(sha512sum /tmp/aws-lambda-rie | awk '{ print $1 }')"
+
+          sed -i "s/^\(ENV AWS_LAMBDA_RIE_ARM64_SHA=\).*$/\1$CHECKSUM/" ./*/Dockerfile
+
+      - name: Commit Checksums
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
+        with:
+          commit_message: "Sync aws lambda rie checksums"
