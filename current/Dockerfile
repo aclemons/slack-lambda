@@ -22,9 +22,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN \
     if [ "$(uname -m)" = "aarch64" ] ; then curl -o /usr/local/bin/aws-lambda-rie -L "https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/$AWS_LAMBDA_RIE_VERSION/aws-lambda-rie-arm64" ; fi  && \
-    if [ "$(uname -m)" = "aarch64" ] ; then printf "%s\t/usr/local/bin/aws-lambda-rie\n" "$AWS_LAMBDA_RIE_AMD64_SHA" | sha512sum -c - ; fi && \
+    if [ "$(uname -m)" = "aarch64" ] ; then printf "%s\t/usr/local/bin/aws-lambda-rie\n" "$AWS_LAMBDA_RIE_ARM64_SHA" | sha512sum -c - ; fi && \
     if [ "$(uname -m)" = "x86_64" ] ; then curl -o /usr/local/bin/aws-lambda-rie -L "https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/$AWS_LAMBDA_RIE_VERSION/aws-lambda-rie-x86_64" ; fi && \
-    if [ "$(uname -m)" = "x86_64" ] ; then printf "%s\t/usr/local/bin/aws-lambda-rie\n" "$AWS_LAMBDA_RIE_ARM64_SHA" | sha512sum -c - ; fi && \
+    if [ "$(uname -m)" = "x86_64" ] ; then printf "%s\t/usr/local/bin/aws-lambda-rie\n" "$AWS_LAMBDA_RIE_AMD64_SHA" | sha512sum -c - ; fi && \
     chown root:root /usr/local/bin/aws-lambda-rie && chmod 0755 /usr/local/bin/aws-lambda-rie
 
 
