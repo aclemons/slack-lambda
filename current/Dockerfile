@@ -14,7 +14,7 @@ RUN export TERSE=0 && \
     touch /var/lib/slackpkg/current
 
 # renovate: datasource=github-releases depName=aws/aws-lambda-runtime-interface-emulator
-ARG AWS_LAMBDA_RIE_VERSION=v1.33
+ARG AWS_LAMBDA_RIE_VERSION=v1.34
 ENV AWS_LAMBDA_RIE_AMD64_SHA=4fe09c00c74470d5ff54a9ebfeee88c1594c2a8c12c39ed4c763f069efc05b785247481931ca4a8edf30bcf1081e37543f736e3d93fd0648ebf5d08da2b1082b
 ENV AWS_LAMBDA_RIE_ARM64_SHA=035c42cab1ea4de4f9b158a94d5d05ca466ca3ac4b45fedbd782d7d3c3a10a3551a6b27e591351686edadd11590af3c96707eea675387d131c78a4c4683007fd
 
@@ -22,9 +22,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN \
     if [ "$(uname -m)" = "aarch64" ] ; then curl -o /usr/local/bin/aws-lambda-rie -L "https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/$AWS_LAMBDA_RIE_VERSION/aws-lambda-rie-arm64" ; fi  && \
-    if [ "$(uname -m)" = "aarch64" ] ; then printf "%s\t/usr/local/bin/aws-lambda-rie\n" "$AWS_LAMBDA_RIE_AMD64_SHA" | sha512sum -c - ; fi && \
+    if [ "$(uname -m)" = "aarch64" ] ; then printf "%s\t/usr/local/bin/aws-lambda-rie\n" "$AWS_LAMBDA_RIE_ARM64_SHA" | sha512sum -c - ; fi && \
     if [ "$(uname -m)" = "x86_64" ] ; then curl -o /usr/local/bin/aws-lambda-rie -L "https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/$AWS_LAMBDA_RIE_VERSION/aws-lambda-rie-x86_64" ; fi && \
-    if [ "$(uname -m)" = "x86_64" ] ; then printf "%s\t/usr/local/bin/aws-lambda-rie\n" "$AWS_LAMBDA_RIE_ARM64_SHA" | sha512sum -c - ; fi && \
+    if [ "$(uname -m)" = "x86_64" ] ; then printf "%s\t/usr/local/bin/aws-lambda-rie\n" "$AWS_LAMBDA_RIE_AMD64_SHA" | sha512sum -c - ; fi && \
     chown root:root /usr/local/bin/aws-lambda-rie && chmod 0755 /usr/local/bin/aws-lambda-rie
 
 
