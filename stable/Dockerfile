@@ -13,7 +13,7 @@ RUN export TERSE=0 && \
     rm -rf /var/cache/packages/* && rm -rf /var/lib/slackpkg/*
 
 # renovate: datasource=github-releases depName=aws/aws-lambda-runtime-interface-emulator
-ENV AWS_LAMBDA_RIE_VERSION=v1.34
+ENV AWS_LAMBDA_RIE_VERSION=v1.35
 ENV AWS_LAMBDA_RIE_AMD64_SHA=4fe09c00c74470d5ff54a9ebfeee88c1594c2a8c12c39ed4c763f069efc05b785247481931ca4a8edf30bcf1081e37543f736e3d93fd0648ebf5d08da2b1082b
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
