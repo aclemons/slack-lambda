@@ -18,7 +18,7 @@ concurrency:
 jobs:
   seed-150:
     name: Seed 15.0 cache from master branch for PR checks.
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
 
@@ -55,7 +55,7 @@ jobs:
 
   seed-current-amd64:
     name: Seed -current amd64 cache from master branch for PR checks.
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
 
@@ -92,7 +92,7 @@ jobs:
 
   seed-current-arm64:
     name: Seed -current arm64 cache from master branch for PR checks.
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     permissions:
       contents: read
 
