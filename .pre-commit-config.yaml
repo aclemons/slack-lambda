@@ -23,7 +23,7 @@ repos:
         require_serial: false
         additional_dependencies:
           # renovate: datasource=npm
-          - prettier@3.9.6
+          - prettier@3.9.9
 
   - repo: https://github.com/koalaman/shellcheck-precommit
     rev: v0.11.0
