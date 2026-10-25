@@ -9,7 +9,7 @@ on:
 
 env:
   # renovate: datasource=github-releases depName=docker/buildx
-  BUILDX_VERSION: "v0.38.0"
+  BUILDX_VERSION: "v0.38.1"
 
 concurrency:
   group: ${{ github.workflow }}
