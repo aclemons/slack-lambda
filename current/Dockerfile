@@ -14,7 +14,7 @@ RUN export TERSE=0 && \
     touch /var/lib/slackpkg/current
 
 # renovate: datasource=github-releases depName=aws/aws-lambda-runtime-interface-emulator
-ARG AWS_LAMBDA_RIE_VERSION=v1.37
+ARG AWS_LAMBDA_RIE_VERSION=v1.38
 ENV AWS_LAMBDA_RIE_AMD64_SHA=4537b7f41512e363abf4cbbfddf1d81c463d5839df9c2be2b112c3e9910ce1dc5a5d89db73c9ecfe7bb3211501a51cbbaf3ba51597027be9a20f97b8978a2859
 ENV AWS_LAMBDA_RIE_ARM64_SHA=82e833fd96bf155513880c9ca27d2e96a3912d051f7959d9a3d6977118ed87332e0c09076c3c7756864d22d01f56177fbd989cbf3c6dba66462051ba12f470d8
 
