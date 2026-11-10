@@ -14,7 +14,7 @@ RUN export TERSE=0 && \
 
 # renovate: datasource=github-releases depName=aws/aws-lambda-runtime-interface-emulator
 ENV AWS_LAMBDA_RIE_VERSION=v1.38
-ENV AWS_LAMBDA_RIE_AMD64_SHA=4537b7f41512e363abf4cbbfddf1d81c463d5839df9c2be2b112c3e9910ce1dc5a5d89db73c9ecfe7bb3211501a51cbbaf3ba51597027be9a20f97b8978a2859
+ENV AWS_LAMBDA_RIE_AMD64_SHA=b10a012ade6944e8845343d4c60ec74104954d34f6eec2c99039ddc9999edd7bbb9e40b546a8b822c1edc24da8ba96ca136adeeb1188dbd7888fff7df529c851
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
